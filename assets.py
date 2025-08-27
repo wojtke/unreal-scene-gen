@@ -1,0 +1,5 @@
+CAR_PATH  = "/Game/Vehicle/vehCar_vehicle06/Mesh/SM_vehTruck_vehicle06.SM_vehTruck_vehicle06"
+CUBE_PATH = "/Engine/BasicShapes/Cube.Cube"
+BASIC_MTL_PATH  = "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial" 
+ROCK_PATH  = "/Game/RealisticDesertPack/Meshes/Rocks/SM_Rock_10.SM_Rock_10"
+TRUCK_PATH = "/Game/Vehicle/vehTruck_vehicle04/Mesh/SM_vehTruck_vehicle04.SM_vehTruck_vehicle04"
