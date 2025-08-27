@@ -1,0 +1,69 @@
+{
+  "camera": {
+    "label": "CineCameraActor",
+    "path": "/Game/RealisticDesertPack/Maps/Desert_A.Desert_A:PersistentLevel.CineCameraActor_61",
+    "location": {
+      "x": 67597.75821978865,
+      "y": 42344.136752608545,
+      "z": -35457.15499542982
+    },
+    "rotation": {
+      "pitch": -29.297462615693473,
+      "yaw": -101.36852765237693,
+      "roll": -3.8425127960755015e-07
+    },
+    "intrinsics": {
+      "sensor_width_mm": 50.0,
+      "sensor_height_mm": 50.0,
+      "focal_length_mm": 50.0,
+      "aperture_f": 10.0,
+      "hfov_deg": 53.13010235415598,
+      "vfov_deg": 53.13010235415598,
+      "focus": {
+        "method": "DISABLE: 3>",
+        "manual_distance": 100000.0
+      }
+    }
+  },
+  "actors": {
+    "/Game/RealisticDesertPack/Maps/Desert_A.Desert_A:PersistentLevel.StaticMeshActor_201": {
+      "label": "StaticMeshActor",
+      "location": {
+        "x": 66834.91788707998,
+        "y": 41451.937811081494,
+        "z": -36400.0
+      },
+      "rotation": {
+        "pitch": 0.0,
+        "yaw": 116.64285278320312,
+        "roll": 0.0
+      }
+    },
+    "/Game/RealisticDesertPack/Maps/Desert_A.Desert_A:PersistentLevel.StaticMeshActor_202": {
+      "label": "StaticMeshActor2",
+      "location": {
+        "x": 67217.63999455828,
+        "y": 40227.89670617614,
+        "z": -36400.0
+      },
+      "rotation": {
+        "pitch": 0.0,
+        "yaw": -107.4352264404297,
+        "roll": 0.0
+      }
+    },
+    "/Game/RealisticDesertPack/Maps/Desert_A.Desert_A:PersistentLevel.StaticMeshActor_203": {
+      "label": "StaticMeshActor3",
+      "location": {
+        "x": 67747.0577600117,
+        "y": 40410.56729121148,
+        "z": -36400.0
+      },
+      "rotation": {
+        "pitch": 0.0,
+        "yaw": 38.39313125610353,
+        "roll": 0.0
+      }
+    }
+  }
+}
