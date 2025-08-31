@@ -5,23 +5,6 @@ from typing import Tuple
 from collections import deque
 from collections.abc import Iterable
 
-# AX, AY, AZ = 67170.0, 40950.0, -36400.0
-
-# STD_XY = 1000.0   
-# STD_Z  = 100.0    
-
-def sample_pos(anchor, std_xy=500, std_z=0) -> unreal.Vector:
-    ax, ay, az = anchor
-    x = random.gauss(ax, std_xy)
-    y = random.gauss(ay, std_xy)
-    z = random.gauss(az, std_z) 
-    return unreal.Vector(x, y, z)
-
-def sample_rot() -> unreal.Rotator:
-    return unreal.Rotator(0, 0, random.uniform(0.0, 360.0))
-
-def sample_pos_rot() -> Tuple[unreal.Vector, unreal.Rotator]:
-    return sample_pos(), sample_rot()
 
 class PyTick():
     _delegate_handle = None
@@ -55,7 +38,7 @@ class PyTick():
             raise
 
 
-def destroy_by_tag(tag="BATCH_TMP"):
+def destroy_by_tag(tag="SCRIPT_CREATED"):
     for actor in unreal.EditorLevelLibrary.get_all_level_actors():
         if any(str(t) == tag for t in actor.tags):
             unreal.EditorLevelLibrary.destroy_actor(actor)

@@ -1,6 +1,6 @@
 # camera.py (UE 5.4) — minimal patch
 import os, time, math, unreal
-from typing import List
+from typing import List, Optional
 
 class RenderCineCamera:
     def __init__(self,
@@ -10,7 +10,9 @@ class RenderCineCamera:
                  focal_length: float = 50.0,
                  aperture: float = 10.0,
                  focus_enabled: bool = False,
-                 focus_distance: float = 4000.0):
+                 focus_distance: float = 4000.0,
+                 label: Optional[str] = None,
+                 ):
 
         if location is None:
             location = unreal.Vector(0,0,0)
@@ -20,7 +22,7 @@ class RenderCineCamera:
         self.cam: unreal.CineCameraActor = unreal.EditorLevelLibrary.spawn_actor_from_class(
             unreal.CineCameraActor, location, rotation
         )
-        self.cam.tags = [unreal.Name("BATCH_TMP")]
+        self.cam.tags = [unreal.Name("SCRIPT_GENERATED")]
         self.comp: unreal.CineCameraComponent = self.cam.get_cine_camera_component()
 
         fb = self.comp.get_editor_property("filmback")
@@ -38,6 +40,19 @@ class RenderCineCamera:
         rot = self.cam.get_actor_rotation()
         self.cam.set_actor_rotation(unreal.Rotator(rot.pitch, rot.yaw, 0.0), False)
         self._pending_tasks = []
+
+        if label:
+            self.actor.set_actor_label(label, True)
+
+    def fov(self):
+        fb = self.comp.get_editor_property("filmback")
+        sensor_w = float(fb.sensor_width)
+        sensor_h = float(fb.sensor_height)
+        focal    = float(self.comp.get_editor_property("current_focal_length"))
+        aperture = float(self.comp.get_editor_property("current_aperture"))
+        hfov = math.degrees(2.0 * math.atan(0.5 * sensor_w / focal)) if focal > 0 else 0.0
+        vfov = math.degrees(2.0 * math.atan(0.5 * sensor_h / focal)) if focal > 0 else 0.0
+        return hfov, vfov
 
     def move_to(self, location: unreal.Vector, rotation: unreal.Rotator=None):
         if rotation is None:
@@ -100,3 +115,31 @@ class RenderCineCamera:
     @property
     def actor(self) -> unreal.CineCameraActor:
         return self.cam
+
+    def angle_to(self, obj_actor: unreal.Actor) -> float:
+        """
+        Returns angle in degrees between the camera's forward axis and the vector
+        from camera to the object's pivot (actor location).
+        """
+        cam_loc = self.actor.get_actor_location()
+        obj_loc = obj_actor.get_actor_location()
+
+        # Camera forward vector
+        cam_rot = self.actor.get_actor_rotation()
+        cam_fwd = cam_rot.get_forward_vector()
+
+        # Vector from camera → object
+        to_obj = obj_loc - cam_loc
+        length = to_obj.length()
+        if length > 1e-6:
+            to_obj_norm = to_obj / length
+        else:
+            return 0.0  # camera and object centers coincide
+
+        # Dot product → angle
+        dot = cam_fwd.dot(to_obj_norm)
+        dot = max(min(dot, 1.0), -1.0)  # clamp for safety
+        angle_deg = math.degrees(math.acos(dot))
+
+        return angle_deg
+
